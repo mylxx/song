@@ -140,7 +140,8 @@
       .input-td-r {
         text-align: center;
       }
-      .input-td-r > input:not(.quota-input) {
+      .input-td-r
+        > input:not(.quota-input):not(.pre-review-input) {
         display: block;
         margin: 0 auto;
         width: auto;
@@ -153,26 +154,85 @@
         background: transparent;
         padding: 2px 4px;
       }
-      /* 与 Vue 一致：一行内联，段间 &nbsp;&nbsp;&nbsp; */
-      .quota-td {
-        text-align: center;
-        font-size: 16px;
-        color: #000;
-        line-height: 1.4;
-      }
-      .quota-td .quota-input {
-        display: inline-block;
-        vertical-align: baseline;
+      .input-td-r.pre-review-cell .pre-review-input {
+        display: block;
+        margin: 0 auto;
         width: auto;
-        min-width: 2ch;
+        min-width: 4ch;
         max-width: 100%;
         font: inherit;
         font-size: 16px;
         color: #000;
         text-align: center;
         background: transparent;
-        padding: 0;
+        padding: 2px 4px;
+      }
+      .input-td-r.quota-td {
+        text-align: start !important;
+        vertical-align: top;
+        /* 比其它格少留左侧空白，内容整体更靠左；电脑端再左移见下方 transform */
+        padding: 5px 2px 5px 0 !important;
+      }
+      .quota-td {
+        font-size: 16px;
+        color: #000;
+        line-height: 1.4;
+        padding: 5px 2px 5px 0 !important;
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+      }
+      /* 两列模拟表格：整行从左侧排满，左列右对齐、右列左对齐 */
+      .quota-td .quota-pair {
+        display: table;
+        table-layout: fixed;
+        width: 100%;
+        max-width: 100%;
+        margin: 0 0 5px 0;
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+        -webkit-transform: translateX(-8px);
+        -ms-transform: translateX(-8px);
+        transform: translateX(-8px);
+      }
+      .quota-td .quota-pair:last-of-type {
+        margin-bottom: 0;
+      }
+      .quota-td .quota-pair .quota-td--cell {
+        display: table-cell;
+        vertical-align: middle;
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+      }
+      .quota-td .quota-pair .quota-td--name {
+        width: 60%;
+        text-align: right;
+        padding-right: 4px;
+      }
+      .quota-td .quota-pair .quota-td--val {
+        width: 40%;
+        text-align: left;
+        padding-left: 0;
+      }
+      .quota-td .quota-pair .quota-input {
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+        display: block;
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
+        font: inherit;
+        font-size: 16px;
+        color: #000;
+        background: transparent;
         margin: 0;
+        border: 0;
+        padding: 2px 0;
+      }
+      .quota-td .quota-td--name .quota-input {
+        text-align: right;
+      }
+      .quota-td .quota-td--val .quota-input {
+        text-align: left;
       }
       .proc-td {
         text-align: left;
@@ -356,20 +416,52 @@
           min-width: 92px;
           white-space: normal;
         }
-        .input-td-r > input:not(.quota-input),
-        .quota-td .quota-input,
+        .input-td-r
+          > input:not(.quota-input):not(.pre-review-input),
+        .quota-td .quota-pair .quota-input,
         .proc-status-input {
           font-size: 14px;
         }
+        .tr-pre-review .input-td-r .pre-review-input {
+          font-size: 14px;
+        }
+        .input-td-r.quota-td,
         .quota-td {
-          line-height: 1.6;
-          word-break: break-all;
+          line-height: 1.5;
+          padding: 4px 2px 4px 0 !important;
+        }
+        .quota-td .quota-pair {
+          -webkit-transform: translateX(-1px);
+          -ms-transform: translateX(-1px);
+          transform: translateX(-1px);
         }
         .pre-review-cell {
           position: relative;
           padding: 8px 188px 8px 4px !important;
           min-height: 120px;
           vertical-align: middle;
+        }
+        .tr-pre-review .text-td.pre-review-label {
+          vertical-align: middle;
+          text-align: center;
+        }
+        .tr-pre-review .input-td-r.pre-review-cell .pre-review-input {
+          position: absolute;
+          left: 4px;
+          right: 4px;
+          top: 50%;
+          width: auto;
+          min-width: 0;
+          max-width: none;
+          margin: 0;
+          padding: 4px 2px;
+          -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+          -webkit-transform: translateY(-50%);
+          -ms-transform: translateY(-50%);
+          transform: translateY(-50%);
+          text-align: center;
+          z-index: 1;
         }
         .pass-icon {
           display: none;
@@ -399,6 +491,28 @@
           min-height: 120px;
           vertical-align: middle;
         }
+        .tr-pre-review .text-td.pre-review-label {
+          vertical-align: middle;
+          text-align: center;
+        }
+        .tr-pre-review .input-td-r.pre-review-cell .pre-review-input {
+          position: absolute;
+          left: 4px;
+          right: 4px;
+          top: 50%;
+          width: auto;
+          min-width: 0;
+          max-width: none;
+          margin: 0;
+          padding: 4px 2px;
+          -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+          -webkit-transform: translateY(-50%);
+          -ms-transform: translateY(-50%);
+          transform: translateY(-50%);
+          text-align: center;
+          z-index: 1;
+        }
         .pass-icon {
           display: none !important;
         }
@@ -421,8 +535,17 @@
           padding: 6px 158px 6px 4px !important;
           min-height: 108px;
         }
+        .tr-pre-review .input-td-r.pre-review-cell .pre-review-input {
+          right: 4px;
+        }
         .pass-icon-mobile {
           width: 150px;
+        }
+        .quota-td .quota-pair .quota-td--name {
+          width: 60%;
+        }
+        .quota-td .quota-pair .quota-td--val {
+          width: 40%;
         }
       }
     </style>
@@ -536,49 +659,71 @@
           <tr>
             <td class="text-td">私教名额</td>
             <td class="input-td-r quota-td">
-              <input
-                type="text"
-                class="quota-input"
-                name="quotaLabelTotal"
-                value="总名额："
-                autocomplete="off"
-              /><input
-                type="text"
-                class="quota-input"
-                name="quotaTotal"
-                inputmode="numeric"
-                value="xx"
-              />&nbsp;&nbsp;&nbsp;<input
-                type="text"
-                class="quota-input"
-                name="quotaLabelUsed"
-                value="已申请名额："
-                autocomplete="off"
-              /><input
-                type="text"
-                class="quota-input"
-                name="quotaUsed"
-                inputmode="numeric"
-                value="xx"
-              />&nbsp;&nbsp;&nbsp;<input
-                type="text"
-                class="quota-input"
-                name="quotaLabelLeft"
-                value="剩余名额："
-                autocomplete="off"
-              /><input
-                type="text"
-                class="quota-input"
-                name="quotaLeft"
-                inputmode="numeric"
-                value="xx"
-              />
+              <div class="quota-pair">
+                <span class="quota-td--cell quota-td--name"
+                  ><input
+                    type="text"
+                    class="quota-input"
+                    name="quotaLabelTotal"
+                    value="总名额："
+                    autocomplete="off"
+                /></span>
+                <span class="quota-td--cell quota-td--val"
+                  ><input
+                    type="text"
+                    class="quota-input"
+                    name="quotaTotal"
+                    inputmode="numeric"
+                    value="xx"
+                /></span>
+              </div>
+              <div class="quota-pair">
+                <span class="quota-td--cell quota-td--name"
+                  ><input
+                    type="text"
+                    class="quota-input"
+                    name="quotaLabelUsed"
+                    value="已申请名额："
+                    autocomplete="off"
+                /></span>
+                <span class="quota-td--cell quota-td--val"
+                  ><input
+                    type="text"
+                    class="quota-input"
+                    name="quotaUsed"
+                    inputmode="numeric"
+                    value="xx"
+                /></span>
+              </div>
+              <div class="quota-pair">
+                <span class="quota-td--cell quota-td--name"
+                  ><input
+                    type="text"
+                    class="quota-input"
+                    name="quotaLabelLeft"
+                    value="剩余名额："
+                    autocomplete="off"
+                /></span>
+                <span class="quota-td--cell quota-td--val"
+                  ><input
+                    type="text"
+                    class="quota-input"
+                    name="quotaLeft"
+                    inputmode="numeric"
+                    value="xx"
+                /></span>
+              </div>
             </td>
           </tr>
-          <tr>
-            <td class="text-td">初审编号</td>
+          <tr class="tr-pre-review">
+            <td class="text-td pre-review-label">初审编号</td>
             <td class="input-td-r pre-review-cell">
-              <input type="text" name="preReviewNo" value="XSC202636827754" />
+              <input
+                class="pre-review-input"
+                type="text"
+                name="preReviewNo"
+                value="XSC202636827754"
+              />
               <img
                 data-v-3479a910=""
                 src="pass.png"
