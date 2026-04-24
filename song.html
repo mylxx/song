@@ -1,0 +1,637 @@
+<!doctype html>
+
+
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>考生服务平台|新生报考审核</title>
+    <style>
+      /* 对齐 material-vue chunk-2a83ea1e（data-v-3479a910 表格区域） */
+      * {
+        box-sizing: border-box;
+      }
+      /* 正文：PingFang SC（PostScript：PingFangSC-Regular）。element-icons.woff 为图标字体，勿用作正文字体。 */
+      html {
+        font-size: 0;
+        min-height: 100%;
+        font-family:
+          "PingFang SC",
+          "PingFangSC-Regular",
+          -apple-system,
+          BlinkMacSystemFont,
+          "Helvetica Neue",
+          "Microsoft YaHei",
+          sans-serif;
+        background-color: #fff;
+      }
+      body {
+        margin: 0;
+        padding: 0;
+        min-height: 100vh;
+        color: #090909;
+        background: transparent;
+      }
+      input::-webkit-inner-spin-button,
+      input::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
+      input[type="number"] {
+        appearance: textfield;
+        -moz-appearance: textfield;
+      }
+      input {
+        border: none;
+        outline: none;
+      }
+      .template-parser {
+        margin: 24px 70px 0;
+        padding: 14px;
+        border: 1px solid #e3e3e3;
+        border-radius: 8px;
+        background: #fafafa;
+      }
+      .template-parser-title {
+        font-size: 16px;
+        font-weight: 600;
+        color: #090909;
+        margin: 0 0 8px;
+      }
+      .template-textarea {
+        width: 100%;
+        min-height: 132px;
+        resize: vertical;
+        border: 1px solid #dcdfe6;
+        border-radius: 6px;
+        padding: 10px 12px;
+        font-size: 14px;
+        line-height: 1.6;
+        font-family: inherit;
+        color: #303133;
+        background: #fff;
+      }
+      .template-actions {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-top: 10px;
+      }
+      .template-status {
+        font-size: 13px;
+        color: #606266;
+      }
+      .template-status--warn {
+        color: #d97706;
+      }
+      .tt {
+        color: #090909;
+        font-size: 24px;
+        font-weight: 600;
+        margin: 30px 0 0 70px;
+      }
+      .table-content-result {
+        position: relative;
+        padding: 40px 0 50px 70px;
+      }
+      .table-content-result table {
+        width: 573px;
+        max-width: 100%;
+        table-layout: fixed;
+        border-spacing: 0;
+        border-collapse: collapse;
+      }
+      .table-content-result table td {
+        border: 1px solid #e3e3e3;
+        padding: 10px 5px;
+        font-size: 16px;
+        color: #000;
+        vertical-align: middle;
+      }
+      .text-td {
+        width: 150px;
+        min-width: 150px;
+        white-space: nowrap;
+        text-align: center;
+      }
+      .input-td-r {
+        text-align: center;
+      }
+      .input-td-r > input:not(.quota-input) {
+        display: block;
+        margin: 0 auto;
+        width: auto;
+        min-width: 4ch;
+        max-width: 100%;
+        field-sizing: content;
+        font: inherit;
+        font-size: 16px;
+        color: #000;
+        text-align: center;
+        background: transparent;
+        padding: 2px 4px;
+      }
+      /* 与 Vue 一致：一行内联，段间 &nbsp;&nbsp;&nbsp; */
+      .quota-td {
+        text-align: center;
+        font-size: 16px;
+        color: #000;
+        line-height: 1.4;
+      }
+      .quota-td .quota-input {
+        display: inline-block;
+        vertical-align: baseline;
+        width: auto;
+        min-width: 2ch;
+        max-width: 100%;
+        field-sizing: content;
+        font: inherit;
+        font-size: 16px;
+        color: #000;
+        text-align: center;
+        background: transparent;
+        padding: 0;
+        margin: 0;
+      }
+      .proc-td {
+        text-align: left;
+      }
+      .proc-td--status {
+        text-align: center;
+        padding: 0;
+        background: transparent;
+      }
+      .proc-status-row {
+        padding: 10px 12px;
+      }
+      .proc-status-row + .proc-status-row {
+        border-top: 1px solid #e3e3e3;
+      }
+      .proc-status-input {
+        display: block;
+        width: 100%;
+        box-sizing: border-box;
+        border: none;
+        outline: none;
+        background: transparent;
+        font: inherit;
+        font-size: 16px;
+        color: #000;
+        line-height: 1.5;
+        text-align: center;
+        padding: 0;
+        margin: 0;
+      }
+      .page-body-inner {
+        margin-left: 207px;
+      }
+      [type="button"],
+      [type="reset"],
+      [type="submit"],
+      button {
+        -webkit-appearance: button;
+        appearance: button;
+      }
+      .el-button {
+        display: inline-block;
+        line-height: 1;
+        white-space: nowrap;
+        cursor: pointer;
+        background: #fff;
+        border: 1px solid #dcdfe6;
+        color: #606266;
+        -webkit-appearance: none;
+        appearance: none;
+        text-align: center;
+        box-sizing: border-box;
+        outline: 0;
+        margin: 0;
+        transition: 0.1s;
+        font-weight: 500;
+        padding: 12px 20px;
+        font-size: 14px;
+        border-radius: 4px;
+        font-family: inherit;
+      }
+      .el-button--primary {
+        color: #fff;
+        background-color: #409eff;
+        border-color: #409eff;
+      }
+      .el-button--primary:hover {
+        background-color: #66b1ff;
+        border-color: #66b1ff;
+      }
+      .shot {
+        width: 150px;
+        margin: 60px 50px 10px;
+        font-size: 20px;
+      }
+      .pass-icon {
+        position: absolute;
+        left: 450px;
+        bottom: 100px;
+        width: 201px;
+        height: 155px;
+        object-fit: contain;
+        pointer-events: none;
+        z-index: 2;
+      }
+      .pass-icon-mobile {
+        display: none;
+      }
+      .parser-rules {
+        margin: 30px 70px 30px;
+        padding: 12px 14px;
+        border: 1px dashed #d9d9d9;
+        border-radius: 8px;
+        background: #fcfcfc;
+      }
+      .parser-rules-title {
+        margin: 0 0 8px;
+        font-size: 14px;
+        font-weight: 600;
+        color: #303133;
+      }
+      .parser-rules-list {
+        margin: 0;
+        padding-left: 20px;
+        font-size: 13px;
+        line-height: 1.7;
+        color: #606266;
+      }
+      @media (max-width: 768px) {
+        .page-body-inner {
+          margin-left: 0;
+          padding: 16px 12px 24px;
+        }
+        .shot {
+          display: block;
+          width: 100%;
+          max-width: 160px;
+          margin: 0 0 12px;
+          font-size: 18px;
+        }
+        .tt {
+          margin: 30px 0 16px;
+          font-size: 20px;
+        }
+        .table-content-result {
+          padding: 0;
+        }
+        .template-parser {
+          margin: 8px 0 14px;
+          padding: 10px;
+        }
+        .template-parser-title {
+          font-size: 15px;
+        }
+        .template-textarea {
+          min-height: 120px;
+          font-size: 13px;
+        }
+        .template-actions {
+          flex-wrap: wrap;
+        }
+        .template-status {
+          width: 100%;
+        }
+        .parser-rules {
+          margin: 30px 0 14px;
+          padding: 10px 12px;
+        }
+        .parser-rules-list {
+          font-size: 12px;
+          line-height: 1.6;
+        }
+        .table-content-result table {
+          width: 100%;
+        }
+        .table-content-result table td {
+          font-size: 14px;
+          padding: 8px 4px;
+        }
+        .text-td {
+          width: 92px;
+          min-width: 92px;
+          white-space: normal;
+        }
+        .input-td-r > input:not(.quota-input),
+        .quota-td .quota-input,
+        .proc-status-input {
+          font-size: 14px;
+        }
+        .quota-td {
+          line-height: 1.6;
+          word-break: break-all;
+        }
+        .pre-review-cell {
+          position: relative;
+          padding-right: 96px !important;
+        }
+        .pass-icon {
+          display: none;
+        }
+        .pass-icon-mobile {
+          display: block;
+          position: absolute;
+          right: 6px;
+          top: 50%;
+          transform: translateY(-50%);
+          width: clamp(74px, 24vw, 96px);
+          height: auto;
+          pointer-events: none;
+        }
+      }
+    </style>
+
+
+    <div class="page-body-inner">
+      <div class="template-parser">
+        <div class="template-parser-title">模板粘贴区（支持自动识别填充）</div>
+        <textarea id="templateInput" class="template-textarea" placeholder="请粘贴"></textarea>
+        <div class="template-actions">
+          <button type="button" class="el-button el-button--primary" id="parseTemplateBtn">
+            识别并填充
+          </button>
+          <button type="button" class="el-button" id="clearTemplateBtn">
+            清空映射字段
+          </button>
+          <span id="templateStatus" class="template-status">等待粘贴模板内容</span>
+        </div>
+      </div>
+      <div data-v-3479a910="" class="tt">考生服务平台|研究生报考审核</div>
+      <div data-v-3479a910="" class="table-content-result">
+        <table data-v-3479a910="">
+          <tbody><tr>
+            <td class="text-td">姓名</td>
+            <td class="input-td-r">
+              <input type="text" name="name" value="" autocomplete="name">
+            </td>
+          </tr>
+          <tr>
+            <td class="text-td">手机号</td>
+            <td class="input-td-r">
+              <input type="tel" name="mobile" value="" inputmode="numeric" autocomplete="tel">
+            </td>
+          </tr>
+          <tr>
+            <td class="text-td">证件类型</td>
+            <td class="input-td-r">
+              <input type="text" name="idType" value="居民身份证">
+            </td>
+          </tr>
+          <tr>
+            <td class="text-td">证件号码</td>
+            <td class="input-td-r">
+              <input type="text" name="idNumber" value="" autocomplete="off">
+            </td>
+          </tr>
+          <tr>
+            <td class="text-td">邮箱</td>
+            <td class="input-td-r">
+              <input type="email" name="email" value="" autocomplete="email">
+            </td>
+          </tr>
+          <tr>
+            <td class="text-td">报考地区</td>
+            <td class="input-td-r">
+              <input type="text" name="region" value="">
+            </td>
+          </tr>
+          <tr>
+            <td class="text-td">一志愿目标院校</td>
+            <td class="input-td-r">
+              <input type="text" name="school" value="">
+            </td>
+          </tr>
+          <tr>
+            <td class="text-td">一志愿报考专业</td>
+            <td class="input-td-r">
+              <input type="text" name="major" value="">
+            </td>
+          </tr>
+          <tr>
+            <td class="text-td">学习方式</td>
+            <td class="input-td-r">
+              <input type="text" name="learningMethods" value="">
+            </td>
+          </tr>
+          <tr>
+            <td class="text-td">私教名额</td>
+            <td class="input-td-r quota-td">
+              <input type="text" class="quota-input" name="quotaLabelTotal" value="总名额：" autocomplete="off"><input type="text" class="quota-input" name="quotaTotal" inputmode="numeric" value="xx">   <input type="text" class="quota-input" name="quotaLabelUsed" value="已申请名额：" autocomplete="off"><input type="text" class="quota-input" name="quotaUsed" inputmode="numeric" value="xx">   <input type="text" class="quota-input" name="quotaLabelLeft" value="剩余名额：" autocomplete="off"><input type="text" class="quota-input" name="quotaLeft" inputmode="numeric" value="xx">
+            </td>
+          </tr>
+          <tr>
+            <td class="text-td">初审编号</td>
+            <td class="input-td-r pre-review-cell">
+              <input type="text" name="preReviewNo" value="XSC202636827754">
+              <img data-v-3479a910="" src="https://p0-xtjj-private.juejin.cn/tos-cn-i-73owjymdk6/4ff9555a374340249d7482fc46238fd0~tplv-73owjymdk6-jj-mark-v1:0:0:0:0:5o6Y6YeR5oqA5pyv56S-5Yy6IEAgd2luazEyMzQ=:q75.awebp?policy=eyJ2bSI6MywidWlkIjoiMjI5NTQzNjAwOTgxMTcwNCJ9&rk3s=f64ab15b&x-orig-authkey=f32326d3454f2ac7e96d3d06cdbb035152127018&x-orig-expires=1777627993&x-orig-sign=tBC5e%2BnvqAaEkiH%2BRW23DqiESM8%3D" alt="审核通过" class="pass-icon-mobile" width="96" height="74">
+            </td>
+          </tr>
+          <tr>
+            <td class="text-td">申请状态</td>
+            <td class="input-td-r proc-td proc-td--status">
+              <div class="proc-status-row">
+                <input type="text" class="proc-status-input" name="applicationStatus1" value="系统预审核通过">
+              </div>
+              <div class="proc-status-row">
+                <input type="text" class="proc-status-input" name="applicationStatus2" value="志愿院校/专业报考资格核验通过">
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td class="text-td">截止时间</td>
+            <td class="input-td-r">
+              <input type="text" name="deadline" value="">
+            </td>
+          </tr>
+        </tbody></table>
+        <img data-v-3479a910="" src="https://p0-xtjj-private.juejin.cn/tos-cn-i-73owjymdk6/05a8768a07274d94b397fb8aa63e0160~tplv-73owjymdk6-jj-mark-v1:0:0:0:0:5o6Y6YeR5oqA5pyv56S-5Yy6IEAgd2luazEyMzQ=:q75.awebp?policy=eyJ2bSI6MywidWlkIjoiMjI5NTQzNjAwOTgxMTcwNCJ9&rk3s=f64ab15b&x-orig-authkey=f32326d3454f2ac7e96d3d06cdbb035152127018&x-orig-expires=1777627993&x-orig-sign=PVURIwFG7J9z9jHnf6ZGMbPBslU%3D" alt="审核通过" class="pass-icon" width="201" height="155">
+      </div>
+      <section class="parser-rules">
+        <p class="parser-rules-title">识别规则说明</p>
+        <ol class="parser-rules-list">
+          <li>建议一行一个字段，例如：<code>1、姓名：张三</code> 或 <code>姓名: 张三</code>。</li>
+          <li>支持中文冒号和英文冒号，字段前可带序号。</li>
+          <li>字段映射：表格 <code>姓名</code> ⇐ 模板可写 <code>姓名</code>。</li>
+          <li>字段映射：表格 <code>手机号</code> ⇐ 模板可写 <code>手机号</code>、<code>手机号码</code>、<code>电话</code>。</li>
+          <li>字段映射：表格 <code>证件号码</code> ⇐ 模板可写 <code>身份证号</code>、<code>身份证号码</code>、<code>身份证</code>、<code>证件号码</code>、<code>证件号</code>。</li>
+          <li>字段映射：表格 <code>报考地区</code> ⇐ 模板可写 <code>报考地区</code>。</li>
+          <li>字段映射：表格 <code>学习方式</code> ⇐ 模板可写 <code>学习方式</code>、<code>学习形式</code>。</li>
+          <li>字段映射：表格 <code>一志愿报考专业</code> ⇐ 模板可写 <code>报考专业</code>、<code>一志愿报考专业</code>。</li>
+          <li>字段映射：表格 <code>一志愿目标院校</code> ⇐ 模板可写 <code>目标院校</code>、<code>一志愿目标院校</code>、<code>报考院校</code>。</li>
+          <li>字段映射：表格 <code>邮箱</code> ⇐ 模板可写 <code>电子邮箱</code>、<code>邮箱</code>、<code>email</code>。</li>
+          <li>字段映射：表格 <code>截止时间</code> ⇐ 模板可写 <code>截止时间</code>、<code>截止日期</code>、<code>报名截止时间</code>。</li>
+          <li><code>截止时间</code> 规则：模板有值时优先使用模板值；模板没有该字段时，自动填写“当前日期次日 <code>24:00:00</code>”。</li>
+          <li>同一字段出现多次时以后面的值为准；未匹配字段会在提示中显示。</li>
+          <li><code>textarea</code> 为空时，会自动清空可映射字段。</li>
+        </ol>
+      </section>
+    </div>
+    <script>
+      (function () {
+        var templateInput = document.getElementById("templateInput");
+        var parseBtn = document.getElementById("parseTemplateBtn");
+        var clearBtn = document.getElementById("clearTemplateBtn");
+        var statusEl = document.getElementById("templateStatus");
+        var debounceTimer = null;</script>
+
+        var fieldAliasMap = {
+          name: ["姓名"],
+          mobile: ["手机号", "手机号码", "电话"],
+          idNumber: ["身份证号", "身份证号码", "身份证", "证件号码", "证件号"],
+          region: ["报考地区"],
+          learningMethods: ["学习方式", "学习形式"],
+          major: ["报考专业", "一志愿报考专业"],
+          school: ["目标院校", "一志愿目标院校", "报考院校"],
+          email: ["电子邮箱", "邮箱", "email"],
+          deadline: ["截止时间", "截止日期", "报名截止时间"]
+        };
+        var targetFieldNames = Object.keys(fieldAliasMap);
+
+        function setStatus(text, warning) {
+          if (!statusEl) return;
+          statusEl.textContent = text;
+          statusEl.classList.toggle("template-status--warn", !!warning);
+        }
+
+        function getInputByName(name) {
+          return document.querySelector('input[name="' + name + '"]');
+        }
+
+        function clearMappedFields() {
+          targetFieldNames.forEach(function (fieldName) {
+            var input = getInputByName(fieldName);
+            if (input) input.value = "";
+          });
+          setStatus("已清空可映射字段");
+        }
+
+        function normalizeLabel(label) {
+          return String(label || "")
+            .replace(/\s+/g, "")
+            .replace(/[：:]/g, "")
+            .trim();
+        }
+
+        function normalizeValue(value) {
+          return String(value || "")
+            .replace(/\s*【.*?】\s*/g, " ")
+            .trim();
+        }
+
+        function formatDate(date) {
+          var year = date.getFullYear();
+          var month = String(date.getMonth() + 1).padStart(2, "0");
+          var day = String(date.getDate()).padStart(2, "0");
+          return year + "-" + month + "-" + day;
+        }
+
+        function getNextDayDeadline(baseDate) {
+          var nextDay = new Date(baseDate);
+          nextDay.setDate(nextDay.getDate() + 1);
+          return formatDate(nextDay) + " 24:00:00";
+        }
+
+        function getFieldByLabel(label) {
+          var normalized = normalizeLabel(label);
+          var field = null;
+          Object.keys(fieldAliasMap).some(function (name) {
+            var hit = fieldAliasMap[name].some(function (alias) {
+              return normalizeLabel(alias) === normalized;
+            });
+            if (hit) field = name;
+            return hit;
+          });
+          return field;
+        }
+
+        function parseTemplateText(text) {
+          var result = {};
+          var unknownLabels = [];
+          var lines = String(text || "").split(/\r?\n/);
+
+          lines.forEach(function (line) {
+            var cleaned = String(line || "").trim();
+            if (!cleaned) return;
+            var matched =
+              cleaned.match(/^\s*\d+\s*[、.．]?\s*([^：:]+)\s*[：:]\s*(.+)\s*$/) ||
+              cleaned.match(/^\s*([^：:]+)\s*[：:]\s*(.+)\s*$/);
+            if (!matched) return;
+
+            var label = matched[1].trim();
+            var value = normalizeValue(matched[2]);
+            if (!value) return;
+
+            var field = getFieldByLabel(label);
+            if (!field) {
+              unknownLabels.push(label);
+              return;
+            }
+            result[field] = value;
+          });
+
+          return { values: result, unknownLabels: unknownLabels };
+        }
+
+        function applyParsedValues(parsed) {
+          var values = parsed.values || {};
+          var filledCount = 0;
+          // 截止时间优先使用模板值；模板未提供时才自动回填次日 24:00:00
+          if (!values.deadline) values.deadline = getNextDayDeadline(new Date());
+          Object.keys(values).forEach(function (fieldName) {
+            var input = getInputByName(fieldName);
+            if (!input) return;
+            input.value = values[fieldName];
+            filledCount += 1;
+          });
+
+          if (!filledCount) {
+            setStatus("未识别到可填充字段，请检查模板格式", true);
+            return;
+          }
+
+          if (parsed.unknownLabels.length) {
+            setStatus(
+              "已填充 " +
+                filledCount +
+                " 项；未匹配字段：" +
+                parsed.unknownLabels.join("、"),
+              true
+            );
+            return;
+          }
+
+          setStatus("识别成功，已填充 " + filledCount + " 项");
+        }
+
+        function parseAndApply() {
+          if (!templateInput) return;
+          var raw = templateInput.value || "";
+          if (!raw.trim()) {
+            clearMappedFields();
+            setStatus("模板为空，已清空可映射字段");
+            return;
+          }
+          applyParsedValues(parseTemplateText(raw));
+        }
+
+        if (parseBtn) parseBtn.addEventListener("click", parseAndApply);
+        if (clearBtn) clearBtn.addEventListener("click", clearMappedFields);
+
+        if (templateInput) {
+          templateInput.addEventListener("input", function () {
+            if (debounceTimer) clearTimeout(debounceTimer);
+            debounceTimer = setTimeout(parseAndApply, 350);
+          });
+          templateInput.addEventListener("paste", function () {
+            if (debounceTimer) clearTimeout(debounceTimer);
+            debounceTimer = setTimeout(parseAndApply, 30);
+          });
+        }
+      })();
+    </script>
+
+  </body>
+</html>
