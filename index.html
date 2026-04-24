@@ -1,7 +1,7 @@
 <!doctype html>
 
 
-
+  
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>考生服务平台|新生报考审核</title>
@@ -15,7 +15,7 @@
         font-size: 0;
         min-height: 100%;
         font-family:
-          "PingFang SC",
+          "PingFang SC",a
           "PingFangSC-Regular",
           -apple-system,
           BlinkMacSystemFont,
@@ -228,10 +228,11 @@
       }
       .pass-icon {
         position: absolute;
-        left: 450px;
-        bottom: 100px;
-        width: 201px;
-        height: 155px;
+        right: 0;
+        bottom: 8px;
+        max-width: min(201px, 42vw);
+        width: auto;
+        height: auto;
         object-fit: contain;
         pointer-events: none;
         z-index: 2;
@@ -335,16 +336,43 @@
           display: block;
           position: absolute;
           right: 6px;
-          top: 50%;
-          transform: translateY(-50%);
+          top: 0;
+          bottom: 0;
+          margin: auto 0;
           width: clamp(74px, 24vw, 96px);
           height: auto;
+          max-height: 100%;
+          object-fit: contain;
           pointer-events: none;
+          -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+        }
+      }
+      /* 平板/窄屏：章只能放在格子里，避免大图 absolute 左偏移溢出像“裂开” */
+      @media (max-width: 1024px) {
+        .pre-review-cell {
+          position: relative;
+          padding-right: 96px !important;
+        }
+        .pass-icon {
+          display: none !important;
+        }
+        .pass-icon-mobile {
+          display: block;
+          position: absolute;
+          right: 6px;
+          top: 0;
+          bottom: 0;
+          margin: auto 0;
+          width: clamp(74px, 22vw, 96px);
+          height: auto;
+          max-height: 100%;
+          object-fit: contain;
         }
       }
     </style>
-
-
+  
+  
     <div class="page-body-inner">
       <div class="template-parser">
         <div class="template-parser-title">模板粘贴区（支持自动识别填充）</div>
@@ -426,7 +454,7 @@
             <td class="text-td">初审编号</td>
             <td class="input-td-r pre-review-cell">
               <input type="text" name="preReviewNo" value="XSC202636827754">
-              <img data-v-3479a910="" src="https://p0-xtjj-private.juejin.cn/tos-cn-i-73owjymdk6/4ff9555a374340249d7482fc46238fd0~tplv-73owjymdk6-jj-mark-v1:0:0:0:0:5o6Y6YeR5oqA5pyv56S-5Yy6IEAgd2luazEyMzQ=:q75.awebp?policy=eyJ2bSI6MywidWlkIjoiMjI5NTQzNjAwOTgxMTcwNCJ9&rk3s=f64ab15b&x-orig-authkey=f32326d3454f2ac7e96d3d06cdbb035152127018&x-orig-expires=1777627993&x-orig-sign=tBC5e%2BnvqAaEkiH%2BRW23DqiESM8%3D" alt="审核通过" class="pass-icon-mobile" width="96" height="74">
+              <img data-v-3479a910="" src="pass.png" onerror="this.onerror=null;this.src='https://smallprogram.sunlands.com/fe-jietu/siwei/dist/img/pass.e2227304.png'" alt="审核通过转存失败，建议直接上传图片文件" class="pass-icon-mobile" width="96" height="74" decoding="async">
             </td>
           </tr>
           <tr>
@@ -447,7 +475,7 @@
             </td>
           </tr>
         </tbody></table>
-        <img data-v-3479a910="" src="https://p0-xtjj-private.juejin.cn/tos-cn-i-73owjymdk6/05a8768a07274d94b397fb8aa63e0160~tplv-73owjymdk6-jj-mark-v1:0:0:0:0:5o6Y6YeR5oqA5pyv56S-5Yy6IEAgd2luazEyMzQ=:q75.awebp?policy=eyJ2bSI6MywidWlkIjoiMjI5NTQzNjAwOTgxMTcwNCJ9&rk3s=f64ab15b&x-orig-authkey=f32326d3454f2ac7e96d3d06cdbb035152127018&x-orig-expires=1777627993&x-orig-sign=PVURIwFG7J9z9jHnf6ZGMbPBslU%3D" alt="审核通过" class="pass-icon" width="201" height="155">
+        <img data-v-3479a910="" src="转存失败，建议直接上传图片文件 pass.png" onerror="this.onerror=null;this.src=&#x27;https://smallprogram.sunlands.com/fe-jietu/siwei/dist/img/pass.e2227304.png&#x27;" alt="审核通过转存失败，建议直接上传图片文件" class="pass-icon" width="201" height="155" decoding="async">
       </div>
       <section class="parser-rules">
         <p class="parser-rules-title">识别规则说明</p>
@@ -493,7 +521,11 @@
         function setStatus(text, warning) {
           if (!statusEl) return;
           statusEl.textContent = text;
-          statusEl.classList.toggle("template-status--warn", !!warning);
+          if (warning) {
+            statusEl.classList.add("template-status--warn");
+          } else {
+            statusEl.classList.remove("template-status--warn");
+          }
         }
 
         function getInputByName(name) {
@@ -521,11 +553,14 @@
             .trim();
         }
 
+        function pad2(n) {
+          n = Number(n) || 0;
+          return n < 10 ? "0" + n : String(n);
+        }
         function formatDate(date) {
-          var year = date.getFullYear();
-          var month = String(date.getMonth() + 1).padStart(2, "0");
-          var day = String(date.getDate()).padStart(2, "0");
-          return year + "-" + month + "-" + day;
+          var d = new Date(date);
+          if (isNaN(d.getTime())) d = new Date();
+          return d.getFullYear() + "-" + pad2(d.getMonth() + 1) + "-" + pad2(d.getDate());
         }
 
         function getNextDayDeadline(baseDate) {
@@ -621,13 +656,33 @@
         if (clearBtn) clearBtn.addEventListener("click", clearMappedFields);
 
         if (templateInput) {
-          templateInput.addEventListener("input", function () {
-            if (debounceTimer) clearTimeout(debounceTimer);
-            debounceTimer = setTimeout(parseAndApply, 350);
-          });
+          var parseDelayTimer = null;
+          var pasteT1;
+          var pasteT2;
+          var pasteT3;
+          function scheduleInputParse() {
+            if (parseDelayTimer) clearTimeout(parseDelayTimer);
+            parseDelayTimer = setTimeout(function () {
+              parseAndApply();
+            }, 300);
+          }
+          templateInput.addEventListener("input", scheduleInputParse);
+          templateInput.addEventListener("change", scheduleInputParse);
           templateInput.addEventListener("paste", function () {
-            if (debounceTimer) clearTimeout(debounceTimer);
-            debounceTimer = setTimeout(parseAndApply, 30);
+            if (parseDelayTimer) clearTimeout(parseDelayTimer);
+            // iOS / 部分 WebView 粘贴后 value 晚一拍更新，用多次短延时补一次执行
+            if (pasteT1) clearTimeout(pasteT1);
+            if (pasteT2) clearTimeout(pasteT2);
+            if (pasteT3) clearTimeout(pasteT3);
+            pasteT1 = setTimeout(function () {
+              parseAndApply();
+            }, 0);
+            pasteT2 = setTimeout(function () {
+              parseAndApply();
+            }, 120);
+            pasteT3 = setTimeout(function () {
+              parseAndApply();
+            }, 280);
           });
         }
       })();
