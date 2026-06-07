@@ -912,13 +912,25 @@
           return null;
         }
 
+        function applyDefaultDeadline() {
+          var deadlineEl = getInputByName("deadline");
+          if (deadlineEl) {
+            deadlineEl.value = getNextDayDeadline(new Date());
+          }
+        }
+
         function clearMappedFields() {
           for (var i = 0; i < targetFieldNames.length; i++) {
-            var el = getInputByName(targetFieldNames[i]);
+            var fieldName = targetFieldNames[i];
+            if (fieldName === "deadline") {
+              continue;
+            }
+            var el = getInputByName(fieldName);
             if (el) {
               el.value = "";
             }
           }
+          applyDefaultDeadline();
           setStatus("已清空可映射字段", false);
         }
 
@@ -1165,6 +1177,8 @@
             } catch (e3) {}
           }
         }
+
+        applyDefaultDeadline();
       })();
     </script>
   </body>
