@@ -9,6 +9,107 @@
     <meta name="format-detection" content="telephone=no" />
     <title>考生服务平台|新生报考审核</title>
     <style>
+      .site-header {
+        width: 100%;
+        position: relative;
+      }
+      .site-banner {
+        width: 100%;
+        display: block;
+        position: relative;
+      }
+      .site-banner img {
+        width: 100%;
+        display: block;
+        height: auto;
+      }
+      .site-banner-title {
+        position: absolute;
+        top: 50%;
+        left: 40px;
+        transform: translateY(-50%);
+        color: #fff;
+        font-size: 36px;
+        font-weight: 600;
+        letter-spacing: 2px;
+        text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+      }
+      .site-nav {
+        width: 100%;
+        background: #2c7df6;
+        padding: 0;
+        margin: 0;
+        overflow-x: auto;
+      }
+      .site-nav ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        height: 40px;
+        padding-left: 20px;
+      }
+      .site-nav li {
+        display: flex;
+        align-items: center;
+        white-space: nowrap;
+      }
+      .site-nav li a {
+        color: #b0c4de;
+        font-size: 14px;
+        text-decoration: none;
+        padding: 0 14px;
+        line-height: 40px;
+        transition: color 0.2s;
+      }
+      .site-nav li a:hover {
+        color: #fff;
+      }
+      .site-nav li a.active {
+        color: #fff;
+        font-weight: 600;
+      }
+      .site-nav li + li::before {
+        content: "|";
+        color: #4a6a8a;
+        font-size: 13px;
+      }
+      @media (max-width: 768px) {
+        .site-banner {
+          min-height: 60px;
+        }
+        .site-banner img {
+          min-height: 60px;
+          object-fit: cover;
+        }
+        .site-banner-title {
+          font-size: 22px;
+          left: 12px;
+          letter-spacing: 1px;
+        }
+        .site-nav {
+          -webkit-overflow-scrolling: touch;
+        }
+        .site-nav ul {
+          padding-left: 8px;
+          min-width: max-content;
+        }
+        .site-nav li a {
+          padding: 0 8px;
+          font-size: 12px;
+        }
+      }
+      @media (max-width: 400px) {
+        .site-banner-title {
+          font-size: 18px;
+          left: 10px;
+        }
+        .site-nav li a {
+          padding: 0 6px;
+          font-size: 11px;
+        }
+      }
       /* 对齐 material-vue chunk-2a83ea1e（data-v-3479a910 表格区域） */
       * {
         box-sizing: border-box;
@@ -51,7 +152,7 @@
         outline: none;
       }
       .template-parser {
-        margin: 24px 70px 0;
+        margin: 24px 0 0;
         padding: 14px;
         border: 1px solid #e3e3e3;
         border-radius: 8px;
@@ -104,11 +205,11 @@
         color: #090909;
         font-size: 24px;
         font-weight: 600;
-        margin: 30px 0 0 70px;
+        margin: 30px 0 0 0;
       }
       .table-content-result {
         position: relative;
-        padding: 40px 0 50px 70px;
+        padding: 30px 0 40px 0;
       }
       /* 与表格同宽，避免 .pass-icon 的 right:0 贴到整屏最右侧而“飘出去” */
       @media (min-width: 1025px) {
@@ -140,8 +241,7 @@
       .input-td-r {
         text-align: center;
       }
-      .input-td-r
-        > input:not(.quota-input):not(.pre-review-input) {
+      .input-td-r > input:not(.quota-input):not(.pre-review-input) {
         display: block;
         margin: 0 auto;
         width: auto;
@@ -264,7 +364,9 @@
         margin: 0;
       }
       .page-body-inner {
-        margin-left: 207px;
+        max-width: 900px;
+        margin: 0;
+        padding: 0 32px 0 48px;
       }
       [type="button"],
       [type="reset"],
@@ -341,7 +443,7 @@
         display: none;
       }
       .parser-rules {
-        margin: 30px 70px 30px;
+        margin: 30px 0 30px;
         padding: 12px 14px;
         border: 1px dashed #d9d9d9;
         border-radius: 8px;
@@ -362,8 +464,8 @@
       }
       @media (max-width: 768px) {
         .page-body-inner {
-          margin-left: 0;
-          padding: 16px 12px 24px;
+          margin: 0;
+          padding: 16px 14px 24px;
         }
         .shot {
           display: block;
@@ -373,7 +475,7 @@
           font-size: 18px;
         }
         .tt {
-          margin: 30px 0 16px;
+          margin: 14px 0 12px;
           font-size: 20px;
         }
         .table-content-result {
@@ -416,8 +518,7 @@
           min-width: 92px;
           white-space: normal;
         }
-        .input-td-r
-          > input:not(.quota-input):not(.pre-review-input),
+        .input-td-r > input:not(.quota-input):not(.pre-review-input),
         .quota-td .quota-pair .quota-input,
         .proc-status-input {
           font-size: 14px;
@@ -551,45 +652,36 @@
     </style>
   </head>
   <body>
-    <div class="page-body-inner">
-      <div class="template-parser">
-        <div class="template-parser-title">模板粘贴区（支持自动识别填充）</div>
-        <textarea
-          id="templateInput"
-          class="template-textarea"
-          placeholder="请粘贴"
-          autocomplete="off"
-          autocorrect="off"
-          autocapitalize="off"
-          spellcheck="false"
-          inputmode="text"
-        ></textarea>
-        <div class="template-actions">
-          <button
-            type="button"
-            class="el-button el-button--primary"
-            id="parseTemplateBtn"
-          >
-            识别并填充
-          </button>
-          <button type="button" class="el-button" id="clearTemplateBtn">
-            清空映射字段
-          </button>
-          <span id="templateStatus" class="template-status">等待粘贴模板内容</span>
+    <header class="site-header">
+      <div class="site-banner">
+        <img
+          src="https://smallprogram.sunlands.com/fe-jietu/siwei/dist/img/banner.8e990751.png"
+          alt="自学考试考生服务平台 Banner"
+        />
+        <div class="site-banner-title" id="bannerTitle">
+          医学研究生考生服务平台
         </div>
       </div>
+      <nav class="site-nav">
+        <ul>
+          <li><a href="#">院校信息</a></li>
+          <li><a href="#">自考新闻</a></li>
+          <li><a href="#">专业计划</a></li>
+          <li><a href="#">考试安排</a></li>
+          <li><a href="#" class="active">报考审核</a></li>
+          <li><a href="#">成绩查询</a></li>
+          <li><a href="#">帮助中心</a></li>
+        </ul>
+      </nav>
+    </header>
+    <div class="page-body-inner">
       <div data-v-3479a910="" class="tt">考生服务平台|研究生报考审核</div>
       <div data-v-3479a910="" class="table-content-result">
         <table data-v-3479a910="">
           <tr>
             <td class="text-td">姓名</td>
             <td class="input-td-r">
-              <input
-                type="text"
-                name="name"
-                value=""
-                autocomplete="name"
-              />
+              <input type="text" name="name" value="" autocomplete="name" />
             </td>
           </tr>
           <tr>
@@ -613,23 +705,13 @@
           <tr>
             <td class="text-td">证件号码</td>
             <td class="input-td-r">
-              <input
-                type="text"
-                name="idNumber"
-                value=""
-                autocomplete="off"
-              />
+              <input type="text" name="idNumber" value="" autocomplete="off" />
             </td>
           </tr>
           <tr>
             <td class="text-td">邮箱</td>
             <td class="input-td-r">
-              <input
-                type="email"
-                name="email"
-                value=""
-                autocomplete="email"
-              />
+              <input type="email" name="email" value="" autocomplete="email" />
             </td>
           </tr>
           <tr>
@@ -727,7 +809,11 @@
               <img
                 data-v-3479a910=""
                 src="pass.png"
-                onerror="this.onerror=null;this.src='https://smallprogram.sunlands.com/fe-jietu/siwei/dist/img/pass.e2227304.png'"
+                onerror="
+                  this.onerror = null;
+                  this.src =
+                    'https://smallprogram.sunlands.com/fe-jietu/siwei/dist/img/pass.e2227304.png';
+                "
                 alt="审核通过"
                 class="pass-icon-mobile"
                 width="180"
@@ -738,9 +824,7 @@
           </tr>
           <tr>
             <td class="text-td">申请状态</td>
-            <td
-              class="input-td-r proc-td proc-td--status status-stamp-cell"
-            >
+            <td class="input-td-r proc-td proc-td--status status-stamp-cell">
               <div class="proc-status-row">
                 <input
                   type="text"
@@ -760,7 +844,11 @@
               <img
                 data-v-3479a910=""
                 src="pass.png"
-                onerror="this.onerror=null;this.src='https://smallprogram.sunlands.com/fe-jietu/siwei/dist/img/pass.e2227304.png'"
+                onerror="
+                  this.onerror = null;
+                  this.src =
+                    'https://smallprogram.sunlands.com/fe-jietu/siwei/dist/img/pass.e2227304.png';
+                "
                 alt="审核通过"
                 class="pass-icon"
                 width="201"
@@ -777,21 +865,103 @@
           </tr>
         </table>
       </div>
+      <div class="template-parser">
+        <div class="template-parser-title">模板粘贴区（支持自动识别填充）</div>
+        <textarea
+          id="templateInput"
+          class="template-textarea"
+          placeholder="请粘贴"
+          autocomplete="off"
+          autocorrect="off"
+          autocapitalize="off"
+          spellcheck="false"
+          inputmode="text"
+        ></textarea>
+        <div class="template-actions">
+          <button
+            type="button"
+            class="el-button el-button--primary"
+            id="parseTemplateBtn"
+          >
+            识别并填充
+          </button>
+          <button type="button" class="el-button" id="clearTemplateBtn">
+            清空映射字段
+          </button>
+          <span id="templateStatus" class="template-status"
+            >等待粘贴模板内容</span
+          >
+        </div>
+      </div>
+      <div class="template-parser" style="margin-top: 16px">
+        <div class="template-parser-title">Banner 标题修改</div>
+        <input
+          type="text"
+          id="bannerTitleInput"
+          value="医学研究生考生服务平台"
+          style="
+            width: 100%;
+            padding: 10px 12px;
+            font-size: 14px;
+            border: 1px solid #dcdfe6;
+            border-radius: 6px;
+            box-sizing: border-box;
+            font-family: inherit;
+            color: #303133;
+          "
+        />
+      </div>
       <section class="parser-rules">
         <p class="parser-rules-title">识别规则说明</p>
         <ol class="parser-rules-list">
-          <li>建议一行一个字段，例如：<code>1、姓名：张三</code> 或 <code>姓名: 张三</code>。</li>
+          <li>
+            建议一行一个字段，例如：<code>1、姓名：张三</code> 或
+            <code>姓名: 张三</code>。
+          </li>
           <li>支持中文冒号和英文冒号，字段前可带序号。</li>
-          <li>字段映射：表格 <code>姓名</code> ⇐ 模板可写 <code>姓名</code>。</li>
-          <li>字段映射：表格 <code>手机号</code> ⇐ 模板可写 <code>手机号</code>、<code>手机号码</code>、<code>电话</code>。</li>
-          <li>字段映射：表格 <code>证件号码</code> ⇐ 模板可写 <code>身份证号</code>、<code>身份证号码</code>、<code>身份证</code>、<code>证件号码</code>、<code>证件号</code>。</li>
-          <li>字段映射：表格 <code>报考地区</code> ⇐ 模板可写 <code>报考地区</code>。</li>
-          <li>字段映射：表格 <code>学习方式</code> ⇐ 模板可写 <code>学习方式</code>、<code>学习形式</code>。</li>
-          <li>字段映射：表格 <code>一志愿报考专业</code> ⇐ 模板可写 <code>报考专业</code>、<code>一志愿报考专业</code>。</li>
-          <li>字段映射：表格 <code>一志愿目标院校</code> ⇐ 模板可写 <code>目标院校</code>、<code>一志愿目标院校</code>、<code>报考院校</code>。</li>
-          <li>字段映射：表格 <code>邮箱</code> ⇐ 模板可写 <code>电子邮箱</code>、<code>邮箱</code>、<code>email</code>。</li>
-          <li>字段映射：表格 <code>截止时间</code> ⇐ 模板可写 <code>截止时间</code>、<code>截止日期</code>、<code>报名截止时间</code>。</li>
-          <li><code>截止时间</code> 规则：模板有值时优先使用模板值；模板没有该字段时，自动填写“当前日期次日 <code>24:00:00</code>”。</li>
+          <li>
+            字段映射：表格 <code>姓名</code> ⇐ 模板可写 <code>姓名</code>。
+          </li>
+          <li>
+            字段映射：表格 <code>手机号</code> ⇐ 模板可写
+            <code>手机号</code>、<code>手机号码</code>、<code>电话</code>。
+          </li>
+          <li>
+            字段映射：表格 <code>证件号码</code> ⇐ 模板可写
+            <code>身份证号</code
+            >、<code>身份证号码</code>、<code>身份证</code>、<code>证件号码</code>、<code>证件号</code>。
+          </li>
+          <li>
+            字段映射：表格 <code>报考地区</code> ⇐ 模板可写
+            <code>报考地区</code>。
+          </li>
+          <li>
+            字段映射：表格 <code>学习方式</code> ⇐ 模板可写
+            <code>学习方式</code>、<code>学习形式</code>。
+          </li>
+          <li>
+            字段映射：表格 <code>一志愿报考专业</code> ⇐ 模板可写
+            <code>报考专业</code>、<code>一志愿报考专业</code>。
+          </li>
+          <li>
+            字段映射：表格 <code>一志愿目标院校</code> ⇐ 模板可写
+            <code>目标院校</code
+            >、<code>一志愿目标院校</code>、<code>报考院校</code>。
+          </li>
+          <li>
+            字段映射：表格 <code>邮箱</code> ⇐ 模板可写
+            <code>电子邮箱</code>、<code>邮箱</code>、<code>email</code>。
+          </li>
+          <li>
+            字段映射：表格 <code>截止时间</code> ⇐ 模板可写
+            <code>截止时间</code
+            >、<code>截止日期</code>、<code>报名截止时间</code>。
+          </li>
+          <li>
+            <code>截止时间</code>
+            规则：模板有值时优先使用模板值；模板没有该字段时，自动填写“当前日期次日
+            <code>24:00:00</code>”。
+          </li>
           <li>同一字段出现多次时以后面的值为准；未匹配字段会在提示中显示。</li>
           <li><code>textarea</code> 为空时，会自动清空可映射字段。</li>
         </ol>
@@ -809,19 +979,13 @@
         var fieldAliasMap = {
           name: ["姓名"],
           mobile: ["手机号", "手机号码", "电话"],
-          idNumber: [
-            "身份证号",
-            "身份证号码",
-            "身份证",
-            "证件号码",
-            "证件号"
-          ],
+          idNumber: ["身份证号", "身份证号码", "身份证", "证件号码", "证件号"],
           region: ["报考地区"],
           learningMethods: ["学习方式", "学习形式"],
           major: ["报考专业", "一志愿报考专业"],
           school: ["目标院校", "一志愿目标院校", "报考院校"],
           email: ["电子邮箱", "邮箱", "email"],
-          deadline: ["截止时间", "截止日期", "报名截止时间"]
+          deadline: ["截止时间", "截止日期", "报名截止时间"],
         };
 
         function objectKeys(obj) {
@@ -879,14 +1043,12 @@
               if (warning) {
                 if (cn.indexOf(" " + w + " ") < 0) {
                   statusEl.className = strTrim(
-                    (statusEl.className || "") + " " + w
+                    (statusEl.className || "") + " " + w,
                   );
                 }
               } else {
                 statusEl.className = strTrim(
-                  cn
-                    .replace(" " + w + " ", " ")
-                    .replace(" " + w, "")
+                  cn.replace(" " + w + " ", " ").replace(" " + w, ""),
                 );
               }
             }
@@ -938,14 +1100,13 @@
           return strTrim(
             strTrim(String(lab || ""))
               .replace(/\s+/g, "")
-              .replace(/[：:]/g, "")
+              .replace(/[：:]/g, ""),
           );
         }
 
         function normalizeValue(val) {
           return strTrim(
-            strTrim(String(val || ""))
-              .replace(/\s*【.*?】\s*/g, " ")
+            strTrim(String(val || "")).replace(/\s*【.*?】\s*/g, " "),
           );
         }
 
@@ -1000,7 +1161,7 @@
             }
             var m =
               cleaned.match(
-                /^\s*\d+\s*[、.．]?\s*([^：:]+)\s*[：:]\s*(.+)\s*$/
+                /^\s*\d+\s*[、.．]?\s*([^：:]+)\s*[：:]\s*(.+)\s*$/,
               ) || cleaned.match(/^\s*([^：:]+)\s*[：:]\s*(.+)\s*$/);
             if (!m) {
               continue;
@@ -1042,8 +1203,11 @@
           }
           if (parsed.unknownLabels && parsed.unknownLabels.length) {
             setStatus(
-              "已填充 " + n + " 项；未匹配字段：" + listJoin(parsed.unknownLabels, "、"),
-              true
+              "已填充 " +
+                n +
+                " 项；未匹配字段：" +
+                listJoin(parsed.unknownLabels, "、"),
+              true,
             );
             return;
           }
@@ -1080,7 +1244,7 @@
               pasteTimerIds.push(
                 setTimeout(function () {
                   safeRun();
-                }, ms)
+                }, ms),
               );
             })(delays[p]);
           }
@@ -1163,7 +1327,7 @@
                   }
                   setTimeout(safeRun, 0);
                 },
-                false
+                false,
               );
             } catch (e2) {}
             try {
@@ -1172,13 +1336,24 @@
                 function () {
                   setTimeout(safeRun, 50);
                 },
-                false
+                false,
               );
             } catch (e3) {}
           }
         }
 
         applyDefaultDeadline();
+      })();
+    </script>
+    <script>
+      (function () {
+        var titleInput = document.getElementById("bannerTitleInput");
+        var bannerTitle = document.getElementById("bannerTitle");
+        if (titleInput && bannerTitle) {
+          titleInput.oninput = function () {
+            bannerTitle.textContent = titleInput.value || "";
+          };
+        }
       })();
     </script>
   </body>
